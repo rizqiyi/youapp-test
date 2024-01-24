@@ -2,32 +2,93 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  line-height: 1cap;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+@layer base {
+  h1 {
+    @apply text-4xl font-bold md:text-5xl;
+  }
+
+  h2 {
+    @apply text-3xl font-bold md:text-4xl;
+  }
+
+  h3 {
+    @apply text-2xl font-bold md:text-3xl;
+  }
+
+  h4 {
+    @apply text-xl font-bold;
+  }
+
+  h5 {
+    @apply text-lg font-bold;
+  }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: #ffffff;
+    transition: background-color 5000s ease-in-out 0s;
+    box-shadow: inset 0 0 20px 20px #ffffff0f;
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
-
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  .wrapper {
+    @apply mx-auto px-0 sm:px-8;
+    max-width: 400px;
+  }
+
+  .wrapper-radial {
+    @apply px-[18px] py-6 bg-gradient-radial min-h-[100vh];
+  }
+
+  .wrapper-private {
+    @apply px-[18px] py-6 bg-[#09141A] min-h-[100vh];
+  }
+
+  .golden-gradient-text {
+    background: linear-gradient(
+      74deg,
+      #94783e -6.8%,
+      #f3eda6 16.76%,
+      #f8fae5 30.5%,
+      #ffe2be 49.6%,
+      #d5be88 78.56%,
+      #f8fae5 89.01%,
+      #d5be88 100.43%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    position: relative;
+    /* display: inline-block; */
+  }
+
+  .golden-gradient-text::after {
+    content: "";
+    position: absolute;
+    bottom: -1.5px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(
+      74deg,
+      #94783e -6.8%,
+      #f3eda6 16.76%,
+      #f8fae5 30.5%,
+      #ffe2be 49.6%,
+      #d5be88 78.56%,
+      #f8fae5 89.01%,
+      #d5be88 100.43%
+    ); /* Adjust the color as needed */
   }
 }

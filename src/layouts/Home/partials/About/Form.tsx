@@ -2,6 +2,7 @@
 
 import React, { ChangeEvent, useState } from "react";
 import Input from "@/components/Input";
+import Select from "@/components/Select";
 import Image from "next/image";
 
 const Form = () => {
@@ -71,18 +72,15 @@ const Form = () => {
             placeholder="Enter name"
           />
         </div>
-        <div className="flex items-center gap-[30px]">
+        <div className="flex items-center justify-between">
           <div className="w-[100px] mw-[90px]">
             <h6 className="text-[13px] leading-normal text-[#ffffff54]">
               Gender:
             </h6>
           </div>
-          <Input
-            inputSize="sm"
-            variant="outline"
-            className="text-right"
-            placeholder="Enter name"
-          />
+          <div className="relative">
+            <Select isSearchable={false} placeholder="Select gender" />
+          </div>
         </div>
         <div className="flex items-center gap-[30px]">
           <div className="w-[100px] mw-[90px]">
@@ -108,6 +106,7 @@ const Form = () => {
             variant="outline"
             className="text-right"
             placeholder="--"
+            disabled
           />
         </div>
         <div className="flex items-center gap-[30px]">
@@ -121,6 +120,7 @@ const Form = () => {
             variant="outline"
             className="text-right"
             placeholder="--"
+            disabled
           />
         </div>
         <div className="flex items-center gap-[30px]">

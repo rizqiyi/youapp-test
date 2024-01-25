@@ -10,10 +10,11 @@ import {
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   inputSize?: "sm" | "normal";
   variant?: "outline" | "normal";
+  register?: any;
 }
 
 const Input: React.FC<InputProps> = (props: InputProps) => {
-  const { inputSize = "normal", variant = "normal" } = props;
+  const { inputSize = "normal", variant = "normal", register } = props;
   const [type, setType] = useState<string>("password");
 
   const sizes: Record<string, string> = {
@@ -32,6 +33,7 @@ const Input: React.FC<InputProps> = (props: InputProps) => {
     <div className="relative">
       <input
         {...props}
+        {...register}
         type={props.type === "password" ? type : props.type}
         className={
           props.className ? `${baseClass} ${props.className}` : baseClass

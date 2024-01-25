@@ -7,16 +7,26 @@ import {
   type InputHTMLAttributes,
 } from "react";
 
-interface InputProps
-  extends DetailedHTMLProps<
-    InputHTMLAttributes<HTMLInputElement>,
-    HTMLInputElement
-  > {}
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+  inputSize?: "sm" | "normal";
+  variant?: "outline" | "normal";
+}
 
 const Input: React.FC<InputProps> = (props: InputProps) => {
+  const { inputSize = "normal", variant = "normal" } = props;
   const [type, setType] = useState<string>("password");
-  const baseClass =
-    "min-h-[51px] w-full bg-[#FFFFFF0F] focus:outline-none px-[18px] py-[17px] text-white text-[13px] rounded-[9px]";
+
+  const sizes: Record<string, string> = {
+    sm: "h-[36px] min-h-[36px] px-[10px] py-[20px]",
+    normal: "min-h-[51px] px-[18px] py-[17px]",
+  };
+
+  const variants: Record<string, string> = {
+    outline: "border-2 border-[#ffffff38]",
+    normal: "",
+  };
+
+  const baseClass = `${sizes[inputSize]} ${variants[variant]} w-full bg-[#FFFFFF0F] focus:outline-none text-white text-[13px] rounded-[9px]`;
 
   return (
     <div className="relative">

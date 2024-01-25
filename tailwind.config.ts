@@ -4,10 +4,6 @@ const config: Config = {
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
-      // boxShadowColor: {
-      //   primary:
-      //     "linear-gradient(108deg, rgba(98, 205, 203, 0.50) 24.88%, rgba(69, 153, 219, 0.50) 78.49%)",
-      // },
       backgroundImage: {
         "gradient-radial":
           "radial-gradient(124.23% 171.99% at 100% -3.39%, #1F4247 0%, #0D1D23 56.18%, #09141A 100%)",

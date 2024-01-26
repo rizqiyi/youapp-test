@@ -6,32 +6,22 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
-
-interface LoginForm {
-  username: string;
-  email: string;
-  password: string;
-}
+import { signIn } from "next-auth/react";
+import type { LoginPayload } from "@/services/auth";
 
 const Index = () => {
   const router = useRouter();
-  const { register, handleSubmit } = useForm<LoginForm>();
+  const { register, handleSubmit } = useForm<LoginPayload>();
 
-  const onValid = async (values: LoginForm) => {
+  const onValid = async (values: LoginPayload) => {
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/login`,
-        {
-          method: "post",
-          body: JSON.stringify(values),
-          headers: { "Content-Type": "application/json" },
-        }
-      );
+      const response = await signIn("credentials", {
+        ...values,
+        redirect: false,
+        callbackUrl: "/private/home",
+      });
 
-      const data = await response.json();
-
-      localStorage.setItem("accessToken", data?.access_token);
-      router.push("/");
+      if (response?.ok) router.replace("/private/home");
     } catch (err) {
       console.error(err);
     }

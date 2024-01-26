@@ -2,31 +2,30 @@
 
 import Button from "@/components/Button";
 import Input from "@/components/Input";
+import { RegisterPayload, signUp } from "@/services/auth";
+import { signIn } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 
-interface RegisterForm {
-  username: string;
-  email: string;
-  password: string;
-  confirm_password: string;
-}
-
 const Index = () => {
-  const { register, handleSubmit, watch } = useForm<RegisterForm>();
+  const router = useRouter();
+  const { register, handleSubmit, watch } = useForm<RegisterPayload>();
 
-  const onValid = async (values: RegisterForm) => {
+  const onValid = async (values: RegisterPayload) => {
     try {
-      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/register`, {
-        method: "post",
-        body: JSON.stringify({
-          email: values.email,
-          username: values.username,
-          password: values.password,
-        }),
-        headers: { "Content-Type": "application/json" },
+      await signUp(values);
+
+      const response = await signIn("credentials", {
+        email: values.email,
+        username: values.username,
+        password: values.password,
+        redirect: false,
+        callbackUrl: "/private/home",
       });
+
+      if (response?.ok) router.replace("/private/home");
     } catch (err) {
       console.error(err);
     }

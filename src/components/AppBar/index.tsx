@@ -1,24 +1,26 @@
 "use client";
 
+import { getSession, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 
-// TODO: Add logic for private and public route for back button
 interface AppBarProps {
   callbackSubmit?: () => void;
 }
 
 const Index: React.FC<AppBarProps> = ({ callbackSubmit = () => {} }) => {
-  const { back, push } = useRouter();
+  const { back } = useRouter();
+  const { data, status } = useSession();
   const pathname = usePathname();
+  const isAuthenticated = status === "authenticated";
 
   return (
     <div className="mt-5 grid grid-cols-3 justify-items-stretch">
       <div className="justify-self-start">
         <button
           onClick={() => {
-            if (pathname === "/") return push("/login");
+            if (pathname === "/" && isAuthenticated) return signOut();
 
             back();
           }}
@@ -35,19 +37,22 @@ const Index: React.FC<AppBarProps> = ({ callbackSubmit = () => {} }) => {
         </button>
       </div>
       <div className="justify-self-center">
-        {pathname !== "/interest" && (
-          <span className="text-[14px] font-semibold text-white">@johndoe</span>
+        {pathname !== "/interest" && isAuthenticated && (
+          <span className="text-[14px] font-semibold text-white">
+            @{data?.user?.username}
+          </span>
         )}
       </div>
       <div className="justify-self-end self-center">
-        {pathname === "/interest" ? (
+        {pathname === "/interest" && isAuthenticated && (
           <button
             onClick={callbackSubmit}
             className="text-[14px] font-semibold outline-none save-blue-text-gradient"
           >
             Save
           </button>
-        ) : (
+        )}
+        {pathname !== "/interest" && isAuthenticated && (
           <Image
             src="/icons/menu-ic.svg"
             height={7}

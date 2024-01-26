@@ -36,7 +36,7 @@ const Index = () => {
       <span className="text-[24px] text-white font-bold ml-[18px]">
         Register
       </span>
-      <form onSubmit={handleSubmit(onValid, (err) => console.error(err))}>
+      <form onSubmit={handleSubmit(onValid)}>
         <div className="flex gap-[15px] flex-col">
           <Input
             className="mt-[25px]"

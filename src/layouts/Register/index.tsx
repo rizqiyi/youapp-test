@@ -2,7 +2,7 @@
 
 import Button from "@/components/Button";
 import Input from "@/components/Input";
-import { RegisterPayload, signUp } from "@/services/auth";
+import { RegisterPayload } from "@/services/auth";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -15,7 +15,15 @@ const Index = () => {
 
   const onValid = async (values: RegisterPayload) => {
     try {
-      await signUp(values);
+      await fetch(`/api/auth/register`, {
+        method: "POST",
+        body: JSON.stringify({
+          email: values.email,
+          username: values.username,
+          password: values.password,
+        }),
+        headers: { "Content-Type": "application/json" },
+      });
 
       const response = await signIn("credentials", {
         email: values.email,
@@ -36,7 +44,7 @@ const Index = () => {
       <span className="text-[24px] text-white font-bold ml-[18px]">
         Register
       </span>
-      <form onSubmit={handleSubmit(onValid)}>
+      <form onSubmit={handleSubmit(onValid, (err) => console.error(err))}>
         <div className="flex gap-[15px] flex-col">
           <Input
             className="mt-[25px]"

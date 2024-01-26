@@ -20,8 +20,8 @@ const signIn = async (values: LoginPayload) => {
 };
 
 const signUp = async (values: RegisterPayload) => {
-  return fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/register`, {
-    method: "post",
+  return fetch(`${process.env.NEXT_YOU_APP_API}/api/register`, {
+    method: "POST",
     body: JSON.stringify({
       email: values.email,
       username: values.username,

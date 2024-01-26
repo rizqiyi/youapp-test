@@ -20,7 +20,8 @@ const Index: React.FC<AppBarProps> = ({ callbackSubmit = () => {} }) => {
       <div className="justify-self-start">
         <button
           onClick={() => {
-            if (pathname === "/" && isAuthenticated) return signOut();
+            if (pathname === "/" && isAuthenticated)
+              return signOut({ redirect: true, callbackUrl: "/login" });
 
             back();
           }}

@@ -13,7 +13,7 @@ export interface RegisterPayload {
 
 const signIn = async (values: LoginPayload) => {
   return fetch(`${process.env.NEXT_YOU_APP_API}/api/login`, {
-    method: "post",
+    method: "POST",
     body: JSON.stringify(values),
     headers: { "Content-Type": "application/json" },
   });

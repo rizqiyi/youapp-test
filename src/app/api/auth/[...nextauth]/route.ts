@@ -56,14 +56,15 @@ const authOptions: AuthOptions = {
   session: { strategy: "jwt" },
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    async jwt({ token, user, account }) {
+    async jwt({ token, user, account }: any) {
       if (user && account) {
-        return { ...token, ...user };
+        return { ...token, ...user, accessToken: account.access_token };
       }
       return token;
     },
-    async session({ session, token }) {
+    async session({ session, token }: any) {
       session.user = token;
+      session.accessToken = token.accessToken;
       return session;
     },
   },

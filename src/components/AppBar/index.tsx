@@ -1,6 +1,6 @@
 "use client";
 
-import { getSession, signOut, useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
@@ -20,7 +20,7 @@ const Index: React.FC<AppBarProps> = ({ callbackSubmit = () => {} }) => {
       <div className="justify-self-start">
         <button
           onClick={() => {
-            if (pathname === "/" && isAuthenticated)
+            if (pathname === "/private/home" && isAuthenticated)
               return signOut({ redirect: true, callbackUrl: "/login" });
 
             back();

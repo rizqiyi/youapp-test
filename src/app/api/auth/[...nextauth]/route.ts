@@ -46,7 +46,7 @@ const authOptions: AuthOptions = {
 
           if (api.ok) return { ...res, username: credentials.username };
 
-          throw new Error("Missing credentials");
+          throw res;
         } else {
           throw new Error("Missing credentials");
         }
@@ -63,7 +63,7 @@ const authOptions: AuthOptions = {
       return token;
     },
     async session({ session, token }: any) {
-      if (token?.access_token) {
+      if (token?.access_token && session instanceof Object) {
         const { exp } = jwtDecode<JwtPayload>(String(token?.access_token));
 
         if ((exp as number) < new Date().getTime() / 1000) {
@@ -78,7 +78,7 @@ const authOptions: AuthOptions = {
         return session;
       }
 
-      return null;
+      return {};
     },
   },
   pages: {

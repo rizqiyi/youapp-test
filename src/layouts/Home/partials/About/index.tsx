@@ -23,7 +23,7 @@ const About = () => {
       reset({
         ...state,
         gender: "male",
-        birthday: state.birthday.replaceAll("/", "-"),
+        birthday: state.birthday?.replaceAll("/", "-"),
       });
     }
   }, [isUpdateMode]);
@@ -42,6 +42,7 @@ const About = () => {
           birthday: formatDate(values.birthday, "YYYY/MM/DD"),
           height: values.height,
           weight: values.weight,
+          ...(state.isEmptyProfile ? { interests: [] } : {}),
         }),
       });
 

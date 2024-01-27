@@ -30,12 +30,14 @@ const Input: React.FC<InputProps> = (props: InputProps) => {
       <input
         {...props}
         {...register}
+        type={type}
         className={
           props.className ? `${baseClass} ${props.className}` : baseClass
         }
       />
       {props.type === "password" && (
         <button
+          type="button"
           onClick={() => setType(type === "password" ? "text" : "password")}
           className="absolute top-[17px] right-[18px]"
         >

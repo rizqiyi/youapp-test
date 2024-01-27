@@ -1,3 +1,5 @@
+README : Please check the api, I can't send some field like avatar, username, and gender.
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started

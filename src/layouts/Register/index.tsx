@@ -2,6 +2,7 @@
 
 import Button from "@/components/Button";
 import Input from "@/components/Input";
+import { useErrorContext } from "@/contexts/Error";
 import { RegisterPayload } from "@/services/auth";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
@@ -11,11 +12,12 @@ import { useForm } from "react-hook-form";
 
 const Index = () => {
   const router = useRouter();
+  const { setState } = useErrorContext();
   const { register, handleSubmit, watch } = useForm<RegisterPayload>();
 
   const onValid = async (values: RegisterPayload) => {
     try {
-      await fetch(`/api/auth/register`, {
+      const register = await fetch(`/api/auth/register`, {
         method: "POST",
         body: JSON.stringify({
           email: values.email,
@@ -25,17 +27,25 @@ const Index = () => {
         headers: { "Content-Type": "application/json" },
       });
 
-      const response = await signIn("credentials", {
-        email: values.email,
-        username: values.username,
-        password: values.password,
-        redirect: false,
-        callbackUrl: "/private/home",
-      });
+      const data = await register.json();
 
-      if (response?.ok) router.replace("/private/home");
-    } catch (err) {
-      console.error(err);
+      if (register.ok) {
+        const response = await signIn("credentials", {
+          email: values.email,
+          username: values.username,
+          password: values.password,
+          redirect: false,
+          callbackUrl: "/register",
+        });
+
+        if (response?.ok) return router.replace("/private/home");
+      }
+
+      throw data;
+    } catch (err: any) {
+      setState({
+        error: Array.isArray(err?.message) ? err?.message?.[0] : err?.message,
+      });
     }
   };
 

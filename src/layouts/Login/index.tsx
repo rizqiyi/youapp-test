@@ -8,10 +8,11 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { signIn } from "next-auth/react";
 import type { LoginPayload } from "@/services/auth";
-import Skeleton from "@/components/Skeleton";
+import { useErrorContext } from "@/contexts/Error";
 
 const Index = () => {
   const router = useRouter();
+  const { setState } = useErrorContext();
   const {
     register,
     handleSubmit,
@@ -23,12 +24,14 @@ const Index = () => {
       const response = await signIn("credentials", {
         ...values,
         redirect: false,
-        callbackUrl: "/private/home",
+        callbackUrl: "/login",
       });
 
-      if (response?.ok) router.push("/private/home");
+      if (response?.ok) return router.push("/private/home");
+
+      throw response?.error;
     } catch (err) {
-      console.error(err);
+      setState({ error: String(err) });
     }
   };
 
@@ -41,19 +44,19 @@ const Index = () => {
           <Input
             className="mt-[25px]"
             placeholder="Enter Username"
-            register={register("username")}
+            register={register("username", { required: true })}
             disabled={isSubmitting}
           />
           <Input
             placeholder="Enter Email"
             disabled={isSubmitting}
-            register={register("email")}
+            register={register("email", { required: true })}
           />
           <Input
             placeholder="Enter Password"
             autoComplete="new-password"
             type="password"
-            register={register("password")}
+            register={register("password", { required: true })}
             disabled={isSubmitting}
           />
         </div>

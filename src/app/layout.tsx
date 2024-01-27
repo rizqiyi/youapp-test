@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import AuthProvider from "@/utils/AuthProvider";
 import ProfileProvider from "@/contexts/Profile";
+import ErrorProvider from "@/contexts/Error";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,9 +20,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`wrapper bg-[#0E191F] min-h-[100vh] ${inter.className}`}>
-        <AuthProvider>
-          <ProfileProvider>{children}</ProfileProvider>
-        </AuthProvider>
+        <ErrorProvider>
+          <AuthProvider>
+            <ProfileProvider>{children}</ProfileProvider>
+          </AuthProvider>
+        </ErrorProvider>
       </body>
     </html>
   );

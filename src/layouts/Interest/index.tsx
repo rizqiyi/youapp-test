@@ -3,7 +3,7 @@
 import AppBar from "@/components/AppBar";
 import Select from "@/components/Select";
 import { useProfileContext } from "@/contexts/Profile";
-import InterestsOptions from "@/enums/Interests";
+import InterestsOptions from "@/enums/Profile";
 import { ProfilePayload } from "@/services/profile";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -24,7 +24,6 @@ const Index = () => {
         const res = await fetch("/api/profile", {
           method: "get",
           headers: { authorization: session?.user?.access_token },
-          cache: "no-cache",
         });
 
         const { data: response } = await res.json();

@@ -1,4 +1,4 @@
-import { Options } from "@/enums/Interests";
+import { Option, Options } from "@/enums/Profile";
 import dynamic from "next/dynamic";
 import React, { CSSProperties } from "react";
 const Select = dynamic(() => import("react-select"), { ssr: false });
@@ -19,10 +19,7 @@ interface SelectProps {
   withArrow?: boolean;
   options: Options[];
   isMulti?: boolean;
-  onChange: (
-    newValue: { label: string; value: string }[],
-    actionMeta: ActionMeta<unknown>
-  ) => void;
+  onChange: (newValue: any, actionMeta: ActionMeta<unknown>) => void;
 }
 
 const Index: React.FC<SelectProps> = (props: SelectProps) => {
@@ -52,12 +49,19 @@ const Index: React.FC<SelectProps> = (props: SelectProps) => {
         ...(withArrow ? {} : { DropdownIndicator: () => null }),
       }}
       styles={{
+        singleValue: (styles) => {
+          return {
+            ...styles,
+            color: "#fff",
+          };
+        },
         multiValue: (styles) => {
           return {
             ...styles,
             backgroundColor: "rgba(255, 255, 255, 0.10)",
             borderRadius: "8px",
             padding: "8px 4px",
+            color: "#fff",
           };
         },
         multiValueLabel: (styles) => ({
@@ -81,6 +85,7 @@ const Index: React.FC<SelectProps> = (props: SelectProps) => {
           outline: "",
           boxShadow: "",
           borderRadius: "9px",
+          color: "#fff",
           ...variants(state)[variant],
           backgroundColor: "#FFFFFF0F",
           ...props.customStyle,

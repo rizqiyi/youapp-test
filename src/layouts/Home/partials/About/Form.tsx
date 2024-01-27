@@ -4,10 +4,18 @@ import React, { ChangeEvent, useState } from "react";
 import Input from "@/components/Input";
 import Select from "@/components/Select";
 import Image from "next/image";
+import { Option } from "@/enums/Profile";
+import { getSigns } from "@/utils/Moment";
 
-const Form = () => {
+interface FormProps {
+  register: any;
+  setValue: any;
+  watch: any;
+}
+
+const Form: React.FC<FormProps> = (props: FormProps) => {
+  const { setValue, register, watch } = props;
   const [file, setFile] = useState<File | null>(null);
-
   const [preview, setPreview] = useState<string | null>(null);
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -27,6 +35,7 @@ const Form = () => {
       reader.readAsDataURL(file);
     }
   };
+
   return (
     <div>
       <div className="flex gap-[15px] items-center mb-[29px]">
@@ -60,51 +69,64 @@ const Form = () => {
       </div>
       <div className="flex flex-col gap-3">
         <div className="flex items-center gap-[30px]">
-          <div className="w-[100px] mw-[90px]">
+          <div className="w-[200px] mw-[90px]">
             <h6 className="text-[13px] leading-normal text-[#ffffff54]">
               Display name:
             </h6>
           </div>
           <Input
+            register={register("name")}
             inputSize="sm"
             variant="outline"
             className="text-right"
             placeholder="Enter name"
           />
         </div>
-        <div className="flex items-center justify-between">
-          <div className="w-[100px] mw-[90px]">
+        <div className="flex items-center gap-[30px]">
+          <div className="w-[185px] mw-[90px]">
             <h6 className="text-[13px] leading-normal text-[#ffffff54]">
               Gender:
             </h6>
           </div>
-          <div className="relative">
-            <Select
-              customStyle={{
-                textAlign: "right",
-                padding: "0 0 0 40px",
-              }}
-              variant="outlined"
-              isSearchable={false}
-              placeholder="Select gender"
-            />
-          </div>
+          <Select
+            className="w-full "
+            onChange={(e: Option) => setValue("gender", e?.value)}
+            value={[
+              { label: "Male", value: "male" },
+              { label: "Female", value: "female" },
+            ].filter((val) => val.value === watch("gender"))}
+            options={[
+              { label: "Male", value: "male" },
+              { label: "Female", value: "female" },
+            ]}
+            customStyle={{
+              textAlign: "right",
+              color: "#FFF",
+            }}
+            variant="outlined"
+            isSearchable={false}
+            placeholder="Select gender"
+          />
         </div>
         <div className="flex items-center gap-[30px]">
-          <div className="w-[100px] mw-[90px]">
+          <div className="w-[185px] mw-[90px]">
             <h6 className="text-[13px] leading-normal text-[#ffffff54]">
               Birthday:
             </h6>
           </div>
-          <Input
-            inputSize="sm"
-            variant="outline"
-            className="text-right"
-            placeholder="DD MM YYYY"
-          />
+          <div className="w-full">
+            <Input
+              inputSize="sm"
+              variant="outline"
+              className="text-right"
+              type="date"
+              register={register("birthday", { valueAsDate: true })}
+              placeholder="DD MM YYYY"
+            />
+          </div>
         </div>
         <div className="flex items-center gap-[30px]">
-          <div className="w-[100px] mw-[90px]">
+          <div className="w-[200px] mw-[90px]">
             <h6 className="text-[13px] leading-normal text-[#ffffff54]">
               Horoscope:
             </h6>
@@ -113,12 +135,12 @@ const Form = () => {
             inputSize="sm"
             variant="outline"
             className="text-right"
-            placeholder="--"
+            placeholder={getSigns(watch("birthday")).horoscope}
             disabled
           />
         </div>
         <div className="flex items-center gap-[30px]">
-          <div className="w-[100px] mw-[90px]">
+          <div className="w-[200px] mw-[90px]">
             <h6 className="text-[13px] leading-normal text-[#ffffff54]">
               Zodiac:
             </h6>
@@ -127,12 +149,12 @@ const Form = () => {
             inputSize="sm"
             variant="outline"
             className="text-right"
-            placeholder="--"
+            placeholder={getSigns(watch("birthday")).zodiac}
             disabled
           />
         </div>
         <div className="flex items-center gap-[30px]">
-          <div className="w-[100px] mw-[90px]">
+          <div className="w-[200px] mw-[90px]">
             <h6 className="text-[13px] leading-normal text-[#ffffff54]">
               Height:
             </h6>
@@ -141,11 +163,13 @@ const Form = () => {
             inputSize="sm"
             variant="outline"
             className="text-right"
+            register={register("height", { valueAsNumber: true })}
             placeholder="Add height"
+            type="number"
           />
         </div>
         <div className="flex items-center gap-[30px]">
-          <div className="w-[100px] mw-[90px]">
+          <div className="w-[200px] mw-[90px]">
             <h6 className="text-[13px] leading-normal text-[#ffffff54]">
               Weight:
             </h6>
@@ -153,8 +177,10 @@ const Form = () => {
           <Input
             inputSize="sm"
             variant="outline"
+            register={register("weight",  { valueAsNumber: true })}
             className="text-right"
             placeholder="Add weight"
+            type="number"
           />
         </div>
       </div>

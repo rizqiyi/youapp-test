@@ -4,6 +4,7 @@ export interface ProfilePayload {
   height: number;
   weight: number;
   interests: { label: string; value: string }[] | string[];
+  gender?: string;
 }
 
 const createProfile = async (token: string, values: ProfilePayload) => {

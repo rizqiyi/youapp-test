@@ -9,7 +9,7 @@ import { useProfileContext } from "@/contexts/Profile";
 
 const Index = () => {
   const { data: session } = useSession();
-  const { setState, setLoading } = useProfileContext();
+  const { setState, setLoading, refetch } = useProfileContext();
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -36,7 +36,7 @@ const Index = () => {
     };
 
     if (session?.user?.access_token) fetchProfile();
-  }, [session?.user?.access_token]);
+  }, [session?.user?.access_token, refetch]);
 
   return (
     <div className="flex gap-6 flex-col">

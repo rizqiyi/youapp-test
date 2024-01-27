@@ -29,12 +29,11 @@ const Input: React.FC<InputProps> = (props: InputProps) => {
 
   const baseClass = `${sizes[inputSize]} ${variants[variant]} w-full bg-[#FFFFFF0F] focus:outline-none text-white text-[13px] rounded-[9px]`;
 
-  return (
-    <div className="relative">
+  return props.type === "password" ? (
+    <div className={props.type === "password" ? "relative" : ""}>
       <input
         {...props}
         {...register}
-        type={props.type === "password" ? type : props.type}
         className={
           props.className ? `${baseClass} ${props.className}` : baseClass
         }
@@ -55,6 +54,31 @@ const Input: React.FC<InputProps> = (props: InputProps) => {
         </button>
       )}
     </div>
+  ) : (
+    <>
+      <input
+        {...props}
+        {...register}
+        className={
+          props.className ? `${baseClass} ${props.className}` : baseClass
+        }
+      />
+      {props.type === "password" && (
+        <button
+          onClick={() => setType(type === "password" ? "text" : "password")}
+          className="absolute top-[17px] right-[18px]"
+        >
+          {/* i don't have eye icon for text type */}
+          <Image
+            src="/icons/eye-ic.svg"
+            height={17}
+            width={20}
+            quality={100}
+            alt="eye"
+          />
+        </button>
+      )}
+    </>
   );
 };
 

@@ -20,8 +20,10 @@ interface State {
 interface ProfileState {
   state: State;
   loading: boolean;
+  refetch: boolean;
   setState: Dispatch<SetStateAction<State>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
+  setRefetch: Dispatch<SetStateAction<boolean>>;
 }
 
 const initialState: ProfileState = {
@@ -34,8 +36,10 @@ const initialState: ProfileState = {
     interests: [""],
   },
   loading: true,
+  refetch: false,
   setState: () => {},
   setLoading: () => {},
+  setRefetch: () => {},
 };
 
 const ProfileContext = createContext(initialState);
@@ -49,9 +53,12 @@ const ProfileProvider: React.FC<ProfileProviderProps> = ({
 }: ProfileProviderProps) => {
   const [state, setState] = useState<State>(initialState.state);
   const [loading, setLoading] = useState<boolean>(initialState.loading);
+  const [refetch, setRefetch] = useState<boolean>(initialState.refetch);
 
   return (
-    <ProfileContext.Provider value={{ state, setState, loading, setLoading }}>
+    <ProfileContext.Provider
+      value={{ state, setState, loading, setLoading, refetch, setRefetch }}
+    >
       {children}
     </ProfileContext.Provider>
   );

@@ -1,3 +1,8 @@
+export interface Option {
+  label: string;
+  value: string;
+}
+
 export interface Options {
   label: string;
   value: string;

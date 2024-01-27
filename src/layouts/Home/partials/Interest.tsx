@@ -19,7 +19,7 @@ const Interest = () => {
             width={17}
             quality={100}
             alt="pencil"
-            onClick={() => router.push("/interest")}
+            onClick={() => router.push("/private/interest")}
           />
         </div>
       </div>

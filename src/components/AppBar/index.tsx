@@ -38,14 +38,14 @@ const Index: React.FC<AppBarProps> = ({ callbackSubmit = () => {} }) => {
         </button>
       </div>
       <div className="justify-self-center">
-        {pathname !== "/interest" && isAuthenticated && (
+        {pathname !== "/private/interest" && isAuthenticated && (
           <span className="text-[14px] font-semibold text-white">
             @{data?.user?.username}
           </span>
         )}
       </div>
       <div className="justify-self-end self-center">
-        {pathname === "/interest" && isAuthenticated && (
+        {pathname === "/private/interest" && isAuthenticated && (
           <button
             onClick={callbackSubmit}
             className="text-[14px] font-semibold outline-none save-blue-text-gradient"
@@ -53,7 +53,7 @@ const Index: React.FC<AppBarProps> = ({ callbackSubmit = () => {} }) => {
             Save
           </button>
         )}
-        {pathname !== "/interest" && isAuthenticated && (
+        {pathname !== "/private/interest" && isAuthenticated && (
           <Image
             src="/icons/menu-ic.svg"
             height={7}

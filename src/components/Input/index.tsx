@@ -1,11 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import {
-  useState,
-  type DetailedHTMLProps,
-  type InputHTMLAttributes,
-} from "react";
+import { useState, type InputHTMLAttributes } from "react";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   inputSize?: "sm" | "normal";
@@ -55,30 +51,13 @@ const Input: React.FC<InputProps> = (props: InputProps) => {
       )}
     </div>
   ) : (
-    <>
-      <input
-        {...props}
-        {...register}
-        className={
-          props.className ? `${baseClass} ${props.className}` : baseClass
-        }
-      />
-      {props.type === "password" && (
-        <button
-          onClick={() => setType(type === "password" ? "text" : "password")}
-          className="absolute top-[17px] right-[18px]"
-        >
-          {/* i don't have eye icon for text type */}
-          <Image
-            src="/icons/eye-ic.svg"
-            height={17}
-            width={20}
-            quality={100}
-            alt="eye"
-          />
-        </button>
-      )}
-    </>
+    <input
+      {...props}
+      {...register}
+      className={
+        props.className ? `${baseClass} ${props.className}` : baseClass
+      }
+    />
   );
 };
 

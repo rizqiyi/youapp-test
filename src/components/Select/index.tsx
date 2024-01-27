@@ -1,32 +1,89 @@
-import React from "react";
-import Select from "react-select";
+import { Options } from "@/enums/Interests";
+import dynamic from "next/dynamic";
+import React, { CSSProperties } from "react";
+const Select = dynamic(() => import("react-select"), { ssr: false });
+import { ActionMeta } from "react-select";
 import makeAnimated from "react-select/animated";
 
 const animatedComponents = makeAnimated();
 
-const Index = (props: any) => {
+interface SelectProps {
+  inputSize?: "regular" | "sm";
+  variant?: "regular" | "outlined" | "borderless";
+  isSearchable?: boolean;
+  placeholder?: string;
+  disabled?: boolean;
+  value: { label: string; value: string }[];
+  className?: string;
+  customStyle?: CSSProperties;
+  withArrow?: boolean;
+  options: Options[];
+  isMulti?: boolean;
+  onChange: (
+    newValue: { label: string; value: string }[],
+    actionMeta: ActionMeta<unknown>
+  ) => void;
+}
+
+const Index: React.FC<SelectProps> = (props: SelectProps) => {
+  const { variant = "regular", withArrow = true } = props;
+  const variants = (state: any) => ({
+    outlined: {
+      border: state.isFocused ? "2px solid #ffffff38" : "2px solid #ffffff38",
+      "&:hover": {
+        border: state.isFocused ? "" : "2px solid #ffffff38",
+      },
+    },
+    borderless: {
+      border: state.isFocused ? "none" : "none",
+      "&:hover": {
+        border: state.isFocused ? "" : "none",
+      },
+    },
+    regular: {},
+  });
+
   return (
     <Select
       {...props}
-      components={{ ...animatedComponents, IndicatorSeparator: () => null }}
+      components={{
+        ...animatedComponents,
+        IndicatorSeparator: () => null,
+        ...(withArrow ? {} : { DropdownIndicator: () => null }),
+      }}
       styles={{
+        multiValue: (styles) => {
+          return {
+            ...styles,
+            backgroundColor: "rgba(255, 255, 255, 0.10)",
+            borderRadius: "8px",
+            padding: "8px 4px",
+          };
+        },
+        multiValueLabel: (styles) => ({
+          ...styles,
+          fontSize: "12px",
+          whiteSpace: "none",
+          textOverflow: "unset",
+          lineHeight: "normal",
+          fontWeight: 600,
+          color: "#fff",
+        }),
+        multiValueRemove: (styles) => ({
+          ...styles,
+          color: "white",
+        }),
         control: (baseStyles, state) => ({
           ...baseStyles,
           height: "41px",
           fontSize: "13px",
           width: "100%",
-          textAlign: "right",
-          padding: "0 0 0 40px",
           outline: "",
           boxShadow: "",
           borderRadius: "9px",
-          border: state.isFocused
-            ? "2px solid #ffffff38"
-            : "2px solid #ffffff38",
-          "&:hover": {
-            border: state.isFocused ? "" : "2px solid #ffffff38",
-          },
+          ...variants(state)[variant],
           backgroundColor: "#FFFFFF0F",
+          ...props.customStyle,
         }),
       }}
     />

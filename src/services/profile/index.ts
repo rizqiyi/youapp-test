@@ -1,24 +1,30 @@
-import { getSession } from "next-auth/react";
-
 export interface ProfilePayload {
   name: string;
   birthday: string;
   height: number;
   weight: number;
-  interests: string[];
+  interests: { label: string; value: string }[] | string[];
 }
 
-const createProfile = async (values: ProfilePayload) => {
+const createProfile = async (token: string, values: ProfilePayload) => {
   return fetch(`${process.env.NEXT_YOU_APP_API}/api/createProfile`, {
     method: "POST",
     body: JSON.stringify(values),
+    headers: {
+      "Content-Type": "application/json",
+      "x-access-token": token,
+    },
   });
 };
 
-const updateProfile = async (values: ProfilePayload) => {
+const updateProfile = async (token: string, values: ProfilePayload) => {
   return fetch(`${process.env.NEXT_YOU_APP_API}/api/updateProfile`, {
     method: "PUT",
     body: JSON.stringify(values),
+    headers: {
+      "Content-Type": "application/json",
+      "x-access-token": token,
+    },
   });
 };
 

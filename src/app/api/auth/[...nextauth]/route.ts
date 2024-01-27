@@ -43,7 +43,6 @@ const authOptions: AuthOptions = {
 
           const res = await api.json();
 
-          console.log(api.ok, api.status);
           if (api.ok) return { ...res, username: credentials.username };
 
           throw new Error("Missing credentials");

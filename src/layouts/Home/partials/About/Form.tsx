@@ -79,7 +79,15 @@ const Form = () => {
             </h6>
           </div>
           <div className="relative">
-            <Select isSearchable={false} placeholder="Select gender" />
+            <Select
+              customStyle={{
+                textAlign: "right",
+                padding: "0 0 0 40px",
+              }}
+              variant="outlined"
+              isSearchable={false}
+              placeholder="Select gender"
+            />
           </div>
         </div>
         <div className="flex items-center gap-[30px]">

@@ -9,7 +9,7 @@ async function GET(request: NextRequest) {
 
     const data = await responseApi.json();
 
-    if (!responseApi.ok) throw new Error();
+    if (!responseApi.ok) throw new Error(responseApi.statusText);
 
     return NextResponse.json({ status: 200, data, message: "Success" });
   } catch (error) {

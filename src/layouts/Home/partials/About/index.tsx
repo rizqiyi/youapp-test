@@ -3,9 +3,13 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import Form from "./Form";
+import { useProfileContext } from "@/contexts/Profile";
+import { calculateAge, formatDate, getSigns } from "@/utils/Moment";
 
 const About = () => {
   const [isUpdateMode, setIsUpdateMode] = useState<boolean>(false);
+  const { state, loading } = useProfileContext();
+
   return (
     <div className="relative bg-[#0E191F] w-full min-h-[120px] py-[14px] pr-[14px] pl-[27px] rounded-2xl">
       <div className="mb-[33px] flex items-center justify-between">
@@ -29,29 +33,42 @@ const About = () => {
           )}
         </div>
       </div>
-      {isUpdateMode ? (
-        <Form />
-      ) : (
+      {isUpdateMode && <Form />}
+      {!isUpdateMode && !loading && (
         <div className="flex flex-col gap-[15px]">
-          {/* <h6 className="text-[14px] leading-normal text-[#ffffff85]">
-            Add in your your to help others know you better
-          </h6> */}
-          <h6 className="leading-normal text-[#ffffff54] text-[13px]">
-            Birthday:{" "}
-            <span className="text-white">28 / 08 / 1995 (Age 28)</span>
-          </h6>
-          <h6 className="leading-normal text-[#ffffff54] text-[13px]">
-            Horoscope: <span className="text-white">Virgo</span>
-          </h6>
-          <h6 className="leading-normal text-[#ffffff54] text-[13px]">
-            Zodiac: <span className="text-white">Pig</span>
-          </h6>
-          <h6 className="leading-normal text-[#ffffff54] text-[13px]">
-            Height: <span className="text-white">175cm</span>
-          </h6>
-          <h6 className="leading-normal text-[#ffffff54] text-[13px]">
-            Weight: <span className="text-white">69kg</span>
-          </h6>
+          {state.isEmptyProfile ? (
+            <h6 className="text-[14px] leading-normal text-[#ffffff85]">
+              Add in your your to help others know you better
+            </h6>
+          ) : (
+            <>
+              <h6 className="leading-normal text-[#ffffff54] text-[13px]">
+                Birthday:{" "}
+                <span className="text-white">
+                  {formatDate(state.birthday, "DD-MM-YYYY")} (Age{" "}
+                  {calculateAge(state.birthday)})
+                </span>
+              </h6>
+              <h6 className="leading-normal text-[#ffffff54] text-[13px]">
+                Horoscope:{" "}
+                <span className="text-white">
+                  {getSigns(state.birthday).horoscope}
+                </span>
+              </h6>
+              <h6 className="leading-normal text-[#ffffff54] text-[13px]">
+                Zodiac:{" "}
+                <span className="text-white">
+                  {getSigns(state.birthday).zodiac}
+                </span>
+              </h6>
+              <h6 className="leading-normal text-[#ffffff54] text-[13px]">
+                Height: <span className="text-white">{state.height}cm</span>
+              </h6>
+              <h6 className="leading-normal text-[#ffffff54] text-[13px]">
+                Weight: <span className="text-white">{state.weight}kg</span>
+              </h6>
+            </>
+          )}
         </div>
       )}
     </div>

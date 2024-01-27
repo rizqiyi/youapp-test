@@ -5,9 +5,12 @@ import { NextResponse } from "next/server";
 export async function middleware(request: NextRequest) {
   const token = await getToken({ req: request });
 
-  const isLogin = token?.iat < token?.exp;
+  const currentTimestamp = Math.floor(Date.now() / 1000); // Convert to seconds
 
-  if (!isLogin) {
+  const tokenAgeInSeconds = currentTimestamp - token?.iat;
+  const maxTokenAgeInSeconds = 60 * 60; // 1 hourca
+
+  if (tokenAgeInSeconds > maxTokenAgeInSeconds) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 

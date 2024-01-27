@@ -37,7 +37,7 @@ const Interest = () => {
             {state.interests.map((interest, idx) => (
               <div
                 key={`${interest}_${idx}`}
-                className="bg-[#ffffff0f] rounded-[100px] min-h-[33px] py-2 px-4 flex items-center justify-center text-white text-[14px] font-semibold"
+                className="bg-[#ffffff0f] rounded-[100px] min-h-[33px] py-2 px-4 flex items-center justify-center text-white text-[12px] font-semibold"
               >
                 {interest}
               </div>

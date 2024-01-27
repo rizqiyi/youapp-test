@@ -3,6 +3,7 @@ import type { User } from "next-auth";
 import type { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { signIn } from "@/services/auth";
+import { JwtPayload, jwtDecode } from "jwt-decode";
 
 const authOptions: AuthOptions = {
   providers: [
@@ -52,7 +53,7 @@ const authOptions: AuthOptions = {
       },
     }),
   ],
-  session: { strategy: "jwt" },
+  session: { strategy: "jwt", maxAge: 1 * 60 * 60 },
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async jwt({ token, user, account }: any) {
@@ -62,9 +63,22 @@ const authOptions: AuthOptions = {
       return token;
     },
     async session({ session, token }: any) {
-      session.user = token;
-      session.accessToken = token.accessToken;
-      return session;
+      if (token?.access_token) {
+        const { exp } = jwtDecode<JwtPayload>(String(token?.access_token));
+
+        if ((exp as number) < new Date().getTime() / 1000) {
+          session.error = "unauthenticated";
+
+          return session;
+        }
+
+        session.user = token;
+        session.accessToken = token.access_token;
+
+        return session;
+      }
+
+      return null;
     },
   },
   pages: {

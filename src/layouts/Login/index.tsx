@@ -21,7 +21,7 @@ const Index = () => {
         callbackUrl: "/private/home",
       });
 
-      if (response?.ok) router.replace("/private/home");
+      if (response?.ok) router.push("/private/home");
     } catch (err) {
       console.error(err);
     }

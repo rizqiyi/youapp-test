@@ -6,10 +6,11 @@ import Interest from "./partials/Interest";
 import ProfileBanner from "./partials/ProfileBanner";
 import { useSession } from "next-auth/react";
 import { useProfileContext } from "@/contexts/Profile";
+import Skeleton from "@/components/Skeleton";
 
 const Index = () => {
   const { data: session } = useSession();
-  const { setState, setLoading, refetch } = useProfileContext();
+  const { setState, setLoading, refetch, loading } = useProfileContext();
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -40,9 +41,19 @@ const Index = () => {
 
   return (
     <div className="flex gap-6 flex-col">
-      <ProfileBanner />
-      <About />
-      <Interest />
+      {loading ? (
+        <>
+          <Skeleton className="bg-[#162329] h-[190px]" />
+          <Skeleton className="h-[130px]" />
+          <Skeleton className="h-[130px]" />
+        </>
+      ) : (
+        <>
+          <ProfileBanner />
+          <About />
+          <Interest />
+        </>
+      )}
     </div>
   );
 };

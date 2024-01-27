@@ -8,10 +8,15 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { signIn } from "next-auth/react";
 import type { LoginPayload } from "@/services/auth";
+import Skeleton from "@/components/Skeleton";
 
 const Index = () => {
   const router = useRouter();
-  const { register, handleSubmit } = useForm<LoginPayload>();
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = useForm<LoginPayload>();
 
   const onValid = async (values: LoginPayload) => {
     try {
@@ -37,17 +42,25 @@ const Index = () => {
             className="mt-[25px]"
             placeholder="Enter Username"
             register={register("username")}
+            disabled={isSubmitting}
           />
-          <Input placeholder="Enter Email" register={register("email")} />
+          <Input
+            placeholder="Enter Email"
+            disabled={isSubmitting}
+            register={register("email")}
+          />
           <Input
             placeholder="Enter Password"
             autoComplete="new-password"
             type="password"
             register={register("password")}
+            disabled={isSubmitting}
           />
         </div>
         <div className="mt-[25px] mb-[50px]">
-          <Button type="submit">Login</Button>
+          <Button disabled={isSubmitting} type="submit">
+            Login
+          </Button>
         </div>
       </form>
       <h5 className="text-center text-[13px] font-medium text-white">

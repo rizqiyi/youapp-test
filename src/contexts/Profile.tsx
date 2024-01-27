@@ -1,5 +1,6 @@
 "use client";
 
+import { useSession } from "next-auth/react";
 import {
   Dispatch,
   SetStateAction,
@@ -55,9 +56,18 @@ const ProfileProvider: React.FC<ProfileProviderProps> = ({
   const [loading, setLoading] = useState<boolean>(initialState.loading);
   const [refetch, setRefetch] = useState<boolean>(initialState.refetch);
 
+  const { status } = useSession();
+
   return (
     <ProfileContext.Provider
-      value={{ state, setState, loading, setLoading, refetch, setRefetch }}
+      value={{
+        state,
+        setState,
+        loading: loading || status === "loading",
+        setLoading,
+        refetch,
+        setRefetch,
+      }}
     >
       {children}
     </ProfileContext.Provider>

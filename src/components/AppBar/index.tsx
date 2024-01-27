@@ -24,7 +24,7 @@ const Index: React.FC<AppBarProps> = ({ callbackSubmit = () => {} }) => {
   const publicRoute = ["/login", "/register"];
 
   useEffect(() => {
-    if (data?.error === "unauthenticated")
+    if (data?.error === "unauthenticated" && !publicRoute.includes(pathname))
       signOut({ redirect: true, callbackUrl: "/login" });
   }, [data?.error]);
 

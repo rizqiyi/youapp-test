@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`wrapper min-h-[100vh] ${inter.className}`}>
+      <body className={`wrapper bg-[#0E191F] min-h-[100vh] ${inter.className}`}>
         <AuthProvider>
           <ProfileProvider>{children}</ProfileProvider>
         </AuthProvider>
